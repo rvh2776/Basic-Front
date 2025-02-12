@@ -9,7 +9,7 @@
 <hr>
 <br>
 
-# Front-end: Front inicial para proyectos.
+# Front-end: Front inicial para proyectos, preparado para usar en conjunto con Basic-Back
 
 ## Descripción:
 ### FrontEnd básico con todo lo necesario para empezar un proyecto, cuenta con una LandingPage simple, inicio de sesión, un CRUD completo para usuarios.
