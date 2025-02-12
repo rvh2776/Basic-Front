@@ -36,4 +36,4 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -p ${{ secrets.PORT }} -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-        scp -P ${{ secrets.PORT }} -r dist/* ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/porfolio-v2/front
+        scp -P ${{ secrets.PORT }} -r dist/* ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/basic-front/front
