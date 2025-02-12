@@ -1,0 +1,39 @@
+name: Build and Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm ci
+        
+    - name: Build Frontend
+      env:
+        VITE_URL: ${{ secrets.API_URL }}
+        VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+        VITE_GOOGLE_MAP_ID: ${{ secrets.GOOGLE_MAP_ID }}
+
+      run: npm run build
+    - name: Copy files to server
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -p ${{ secrets.PORT }} -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        scp -P ${{ secrets.PORT }} -r dist/* ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/porfolio-v2/front
